@@ -20,42 +20,36 @@
 <GPL_HEADER>
 ******************************************************************************/
 
-#ifndef _QM_MD_ENGINE_HPP_
+#ifndef _HUBBARD_DERIV_MAP_HPP_
 
-#define _QM_MD_ENGINE_HPP_
+#define _HUBBARD_DERIV_MAP_HPP_
 
-#include <memory>   // for unique_ptr
+#include <string>
+#include <unordered_map>   // for unordered_map
 
-#include "mdEngine.hpp"     // for Engine
-#include "qmRunner.hpp"     // for QMRunner
-#include "qmSettings.hpp"   // for QMSettings
-
-namespace engine
+namespace constants
 {
-
     /**
-     * @class QMMDEngine
-     *
-     * @brief Contains all the information needed to run a QM MD simulation
-     *
+     * @brief Map of Hubbard Derivatives for the 3OB Parameter Set
      */
-    class QMMDEngine : virtual public MDEngine
-    {
-       protected:
-        std::shared_ptr<QM::QMRunner> _qmRunner;
-
-       public:
-        ~QMMDEngine() override = default;
-
-        void calculateForces() override;
-
-        void setQMRunner(const settings::QMMethod method);
-        void setMaceQMRunner();
-        void setAseDftbRunner();
-
-        [[nodiscard]] QM::QMRunner *getQMRunner() const;
+    const std::unordered_map<std::string, double> hubbardDerivMap3ob = {
+        {"H", -0.1857},
+        {"C", -0.1492},
+        {"N", -0.1535},
+        {"O", -0.1575},
+        {"S", -0.11},
+        {"P", -0.14},
+        {"Zn", -0.03},
+        {"Mg", -0.02},
+        {"F", -0.1623},
+        {"Cl", -0.0697},
+        {"Br", -0.0573},
+        {"I", -0.0433},
+        {"Na", -0.0454},
+        {"K", -0.0339},
+        {"Ca", -0.0340},
     };
 
-}   // namespace engine
+}   // namespace constants
 
-#endif   // _QM_MD_ENGINE_HPP_
+#endif   // _HUBBARD_DERIV_MAP_HPP_
