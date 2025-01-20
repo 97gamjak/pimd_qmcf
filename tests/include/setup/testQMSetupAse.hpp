@@ -20,42 +20,34 @@
 <GPL_HEADER>
 ******************************************************************************/
 
-#ifndef _QM_MD_ENGINE_HPP_
+#ifndef _TEST_QMSETUP_ASE_HPP_
 
-#define _QM_MD_ENGINE_HPP_
+#define _TEST_QMSETUP_ASE_HPP_
 
-#include <memory>   // for unique_ptr
+#include "logOutput.hpp"   // for LogOutput
 
-#include "mdEngine.hpp"     // for Engine
-#include "qmRunner.hpp"     // for QMRunner
-#include "qmSettings.hpp"   // for QMSettings
+#include <gtest/gtest.h>   // for Test
+#include <memory>          // for allocator
+#include <stdio.h>         // for remove
 
-namespace engine
+/**
+ * @class TestQMSetupAse
+ *
+ * @brief test suite for QMSetup ase Runner
+ *
+ */
+class TestQMSetupAse : public ::testing::Test
 {
+  protected:
+    void SetUp() override { _logOutput = new output::LogOutput("default.log"); }
 
-    /**
-     * @class QMMDEngine
-     *
-     * @brief Contains all the information needed to run a QM MD simulation
-     *
-     */
-    class QMMDEngine : virtual public MDEngine
+    void TearDown() override
     {
-       protected:
-        std::shared_ptr<QM::QMRunner> _qmRunner;
+        delete _logOutput;
+        ::remove("default.log");
+    }
 
-       public:
-        ~QMMDEngine() override = default;
+    output::LogOutput *_logOutput;
+};
 
-        void calculateForces() override;
-
-        void setQMRunner(const settings::QMMethod method);
-        void setMaceQMRunner();
-        void setAseDftbRunner();
-
-        [[nodiscard]] QM::QMRunner *getQMRunner() const;
-    };
-
-}   // namespace engine
-
-#endif   // _QM_MD_ENGINE_HPP_
+#endif   // _TEST_QMSETUP_ASE_HPP_
